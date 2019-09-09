@@ -33,8 +33,11 @@ class Beer
      */
     private $published_at;
 
+    // persist cascade cela donne la possibilité de faire un insert directement en passant l'objet Country
+    // à la méthode setCountry
+    // Sinon vous devez le persister avant d'utiliser la méthode setCountry de Beer
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="beers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="beers", cascade={"persist"})
      */
     private $country;
 
