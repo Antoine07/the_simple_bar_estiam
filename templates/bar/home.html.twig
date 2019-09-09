@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Hello home page </h1>
+<ul>
+{% for beer in beers %}
+    <li>{{ beer }}</li>
+{% else %}
+    <li>Aucune bière pour l'instant</li>
+{% endfor %}
+</ul>
+{% endblock %}
