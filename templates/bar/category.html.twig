@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Bienvenu dans la page des bières belges
+{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>{{ title }}</h1>
+   {% if beers is defined %}
+        <ul>
+            {% for beer in beers %}
+                <li>{{ beer.name }} price : {{ beer.price }}
+                 {% if beer.country %}
+                <p>Pays : <a href="{{ path('country_beer', {'id' : beer.country.id}) }}">
+                        {{ beer.country.name }}
+                    </a>
+                </p>
+                {% else %}
+                <p>Aucun pays associé à cet bière</p>
+                {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }} Page des bièrés !
+{% endblock %}

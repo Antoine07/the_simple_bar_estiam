@@ -1,0 +1,43 @@
+{# permet d'étendre du template de base #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{# permet de récupérer ce qu'il y a dans le parent (base.html.twig) pour ce tag (title) #}
+{{ parent() }} {{ title }}!
+{% endblock %}
+
+{% block stylesheet %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+<div class="col-md-12">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% if beers is defined %}
+        <ul>
+            {% for beer in beers %}
+                <li>{{ beer.name }} price : {{ beer.price }}
+                 {% if beer.country %}
+                <p>Pays : <a href="{{ path('country_beer', {'id' : beer.country.id}) }}">
+                        {{ beer.country.name }}
+                    </a>
+                </p>
+                {% else %}
+                <p>Aucun pays associé à cet bière</p>
+                {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+{{ parent() }} Page des bièrés !
+{% endblock %}

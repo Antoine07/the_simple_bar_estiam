@@ -6,6 +6,11 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+       {# menu principal #}
+        {{render(controller('App\\Controller\\BarController:mainMenu', {
+            'routeName' : app.request.attributes.get('_route'),
+            'params' : app.request.attributes.get('_route_params')?? null
+        }))}} 
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

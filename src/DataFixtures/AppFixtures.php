@@ -18,9 +18,11 @@ class AppFixtures extends Fixture implements OrderedFixtureInterface
     
         // les catégories spéciales
         // Category::class permet de spécifier le namespace
-        $categoriesSpecials = $manager->getRepository(Category::class)->findBy(['term' => 'special']);
+        //$categoriesSpecials = $manager->getRepository(Category::class)->findBy(['term' => 'special']);
+        $categoriesSpecials = $manager->getRepository(Category::class)->findByTerm('special');
+
         dump($categoriesSpecials);
-        $nbCatSpecials = count(categoriesSpecials);
+        $nbCatSpecials = count($categoriesSpecials);
 
         // les catégories dites normales
         $categoriesNormals = $manager->getRepository(Category::class)->findBy(['term' => 'normal']);
@@ -59,7 +61,7 @@ class AppFixtures extends Fixture implements OrderedFixtureInterface
             $beer->addCategory($categoryNormal);
 
             foreach(
-                $shuffleSlice($categoriesSpecials, 0, rand(1, nbCatSpecials)) as $cat
+                $shuffleSlice($categoriesSpecials, 0, rand(1, $nbCatSpecials)) as $cat
             ) $beer->addCategory($cat);
 
             $manager->persist($beer);
