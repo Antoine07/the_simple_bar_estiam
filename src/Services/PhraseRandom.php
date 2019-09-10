@@ -8,38 +8,45 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class PhraseRandom
 {
-
+    
     private $finder;
     private $logger;
-
+    
     public function __construct(
         LoggerInterface $logger,
         ParameterBagInterface $params
-    ) {
-        $this->finder = new Finder();
-        $this->logger = $logger;
-        $this->params = $params;
-    }
+        ) {
+            $this->finder = new Finder(); // ce n'est pas un service une dépendance
+            // par contre ces deux instances sont des services que l'on a récupéré dans
+            // le conteneur de service
+            $this->logger = $logger;
+            $this->params = $params;
+        }
+        
+        
+        public function get($rand = 1): string
+        {
+            $this->finder->files()->in($this->params->get('app.dir_phrases'))
+            ->notContains('dolor')
+            ->notContains('bad');
+            
+            $rand = rand(1, count($this->finder));
+            $count = 1;
+            
+            if ($this->finder->hasResults()) {
+                
+                foreach ($this->finder as $file) {
+                    if ($count == $rand) {
+                        $this->logger->info($file);
 
+                        return $file->getContents();
+                    }
 
-    public function get($rand = 1)
-    {
-
-        $this->logger->info('About to find a happy message!');
-
-        $this->finder->files()->in($this->params->get('app.dir_phrases'))
-                              ->notContains('dolor')
-                              ->notContains('bad');
-
-        dump(count($this->finder));
-
-        if ($this->finder->hasResults()) {
-            $rand = rand();
-            foreach ($this->finder as $file) {
-                $contents = $file->getContents();
-                dump($contents);
-                // ...
+                    $count++;
+                }
             }
+
+            return '';
         }
     }
-}
+    

@@ -5,6 +5,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+            <li> {{ phrase ?? 'aucune phrase aujourd\'hui' }} </li>
             <li class="nav-item">
                 <a 
                 class="{% if routeName == 'home' %}active{% endif %} nav-link"
