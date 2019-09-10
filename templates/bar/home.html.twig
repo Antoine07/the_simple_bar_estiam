@@ -4,7 +4,7 @@
 <h1>Hello home page </h1>
 <ul>
 {% for beer in beers %}
-    <li>{{ beer }}</li>
+    <li>{{ beer.name }}</li>
 {% else %}
     <li>Aucune bière pour l'instant</li>
 {% endfor %}

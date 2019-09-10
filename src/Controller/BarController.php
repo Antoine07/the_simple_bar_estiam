@@ -1,17 +1,34 @@
 <?php
 namespace App\Controller;
+
 use Symfony\Component\HttpFoundation\Response;
 // Pour utiliser les services importer la classe suivante AbstractController
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+// Mais vous pouvez utiliser le autowiring => injectez les dépendance directement dans le constructeur
+// use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 // vous devez utiliser cette classe pour les annotations
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface; // Doctrine
+use Twig\Environment; // Twig
 
-class BarController extends AbstractController
+use App\Entity\Beer;
+
+class BarController
 {
+
+    private $twig;
+    private $manager;
+
+    public function __construct(
+        Environment $twig, EntityManagerInterface $manager)
+    {
+        $this->twig = $twig;
+        $this->manager = $manager;
+    }
+
     /**
-    * @Route("/", name="home")
-    */
-    public function index()
+     * @Route("/", name="home") 
+     */
+    public function index() : Response
     {
         $beers = [
             "Philomenn Blonde, 5,6 %",
@@ -23,19 +40,21 @@ class BarController extends AbstractController
             "Philomenn Brune 'Spoum des Talus', bière millésimée à la mûre sauvage, 7,0-8,5 %",
             "Philomenn HAC, bière blonde houblonnée à cru, 6,5 %",
         ];
-        
-        return $this->render('/bar/home.html.twig', [
+
+        $beers = $this->manager->getRepository(Beer::class)->findAll();
+
+        return new Response($this->twig->render('/bar/home.html.twig', [
             'beers' => $beers
-            ]);
-        }
-        
-        /**
-        * @Route("/bar/{slug}", name="bar")
-        */
-        public function bar($slug){
-            
-            // double cote permettent d'interpréter
-            // la variable php
-            return new Response("URL bar : $slug");
-        }
+        ]));
     }
+
+    /**
+     * @Route("/bar/{slug}", name="bar")
+     */
+    public function bar($slug)
+    {
+        // double cote permettent d'interpréter
+        // la variable php
+        return new Response("URL bar : $slug");
+    }
+}
