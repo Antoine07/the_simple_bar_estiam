@@ -46,6 +46,16 @@ class Beer
      */
     private $categories;
 
+    /**
+     * @ORM\Column(type="decimal", precision=3, scale=1, nullable=true)
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="decimal", precision=3, scale=1, nullable=true)
+     */
+    private $degree;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -126,6 +136,30 @@ class Beer
         if ($this->categories->contains($category)) {
             $this->categories->removeElement($category);
         }
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getDegree(): ?string
+    {
+        return $this->degree;
+    }
+
+    public function setDegree(?string $degree): self
+    {
+        $this->degree = $degree;
 
         return $this;
     }

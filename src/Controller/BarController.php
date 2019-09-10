@@ -18,8 +18,7 @@ class BarController
     private $twig;
     private $manager;
 
-    public function __construct(
-        Environment $twig, EntityManagerInterface $manager)
+    public function __construct(Environment $twig, EntityManagerInterface $manager)
     {
         $this->twig = $twig;
         $this->manager = $manager;

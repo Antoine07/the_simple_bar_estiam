@@ -11,6 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category
 {
+
+     // On utilise des constantes pour définir le type ENUM avec Doctrine
+    // ces constantes sont utilisées plus bas pour le champ term
+    const SPECIAL = 'special';
+    const NORMAL = 'normal';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -32,6 +38,11 @@ class Category
      * @ORM\ManyToMany(targetEntity="App\Entity\Beer", mappedBy="categories")
      */
     private $beers;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $term;
 
     public function __construct()
     {
@@ -91,6 +102,24 @@ class Category
             $this->beers->removeElement($beer);
             $beer->removeCategory($this);
         }
+
+        return $this;
+    }
+
+    public function getTerm(): ?string
+    {
+        return $this->term;
+    }
+
+    public function setTerm(string $term): self
+    {
+        // pour palier au manque de Doctrine sur le type enum dans MySQL
+        // 
+        if (!in_array($term, [self::SPECIAL, self::NORMAL] )) {
+            throw new \InvalidArgumentException("Invalid term");
+        }
+
+        $this->term = $term;
 
         return $this;
     }
