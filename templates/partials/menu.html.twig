@@ -23,6 +23,16 @@
                 </a>
             </li>
             {% endfor %}
+             <li class="nav-item">
+                <a 
+                class="{% if routeName == 'statistic' %}active{% endif %} nav-link"
+                href="{{ path('statistic') }}">Statistic</a>
+            </li>
+             <li class="nav-item">
+                <a 
+                class="{% if routeName == 'diagram' %}active{% endif %} nav-link"
+                href="{{ path('diagram') }}">diagramme</a>
+            </li>
         </ul>
     </div>
 </nav>

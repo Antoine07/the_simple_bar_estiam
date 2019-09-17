@@ -21,12 +21,12 @@ class AppFixtures extends Fixture implements OrderedFixtureInterface
         //$categoriesSpecials = $manager->getRepository(Category::class)->findBy(['term' => 'special']);
         $categoriesSpecials = $manager->getRepository(Category::class)->findByTerm('special');
 
-        dump($categoriesSpecials);
+        // dump($categoriesSpecials); // debug
         $nbCatSpecials = count($categoriesSpecials);
 
         // les catégories dites normales
         $categoriesNormals = $manager->getRepository(Category::class)->findBy(['term' => 'normal']);
-        dump($categoriesNormals);
+        // dump($categoriesNormals); // debug
 
         $shuffleSlice = function($data, $start, $end){
             shuffle($data);
